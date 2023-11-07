@@ -1,7 +1,8 @@
 use core::fmt;
 
-use serde::{Deserialize, Serialize};
 use serde_with::{base64::Base64, serde_as};
+
+tonic::include_proto!("log");
 
 pub enum LogError {
     ErrOffsetNotFound,
@@ -22,15 +23,6 @@ impl fmt::Display for LogError {
 #[derive(Debug, Clone, Default)]
 pub struct Log {
     records: Vec<Record>,
-}
-
-#[serde_as]
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Record {
-    #[serde_as(as = "Base64")]
-    value: Vec<u8>,
-    #[serde(skip_deserializing)]
-    offset: u64,
 }
 
 impl Log {
